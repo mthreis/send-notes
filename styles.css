@@ -1,3 +1,20 @@
+
+:root {
+    --header-bg-color: #000000;
+    --header-color: #dadada;
+
+    --main-bg-color: #ffffff;
+    --main-color: black;
+
+    
+}
+
+:root:has(#night:checked) {
+
+    --main-bg-color: #474747;
+    --main-color: rgb(212, 212, 212);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -10,18 +27,30 @@ body {
     justify-content: space-between;
 
     min-height: 100vh;
+
+    background-color: var(--main-bg-color);
 }
 
 header {
-    background-color: black;
-    color: #dadada;
+    background-color: var(--header-bg-color);
+    color:  var(--header-color);
 
     height: 48px;
 
     display: flex;
     align-items: center;
+
+    justify-content: space-between;
+
     padding: 0 40px;
+
+    > div {
+        display: flex;
+        gap: 8px;
+    }
 }
+
+
 
 main {
     max-width: 800px;
@@ -30,6 +59,8 @@ main {
     flex: 1;
 
     padding: 12px;
+
+    color: var(--main-color);
 }
 
 footer {
