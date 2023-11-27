@@ -17,7 +17,7 @@ async function getData() {
     notes.innerHTML = "";
 
     for(let p of result) {
-        notes.innerHTML += getCard(p);
+        notes.innerHTML += renderCard(p);
     }
 }
 
@@ -28,25 +28,51 @@ function confirmDelete() {
 }
 
 function renderCards() {
-    
     const notes = document.getElementById("notes");
-
 
     notes.innerHTML = "";
     let i =0;
     while(i < 20) {
-
-
-        notes.innerHTML += getCard();
+        notes.innerHTML += renderCard({
+            date: [ new Date() ],
+            content: 'New task'
+        });
         i++;
     }
 }
 
-function getCard() {
+function formatDate(date) {
+
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    
+    const hour = date.getHours();
+    const min = String(date.getMinutes()).padStart(2, '0');
+
+    return `${ year }/${ month }/${ day } -- ${ hour }:${ min }`;
+}
+
+const taskState = [
+    {
+        class: "cardTime"
+    },
+    {
+        class: "cardTimeReview"
+    },
+    {
+        class: "cardTimeDone"
+    }
+];
+
+function renderCard(card) {
+
+    //console.log(card.date[0].getHours());
+
     return `
     <div class="card">
-        <div class="cardTime">01/01/2001 -- 18:43</div>
-        <input type="text" name="name" value="Learn webdev in 6 months" placeholder="Task name" />
+        <div class="cardTime">${ formatDate(card.date[card.date.length - 1]) }</div>
+        <input type="text" name="name" value="${ card.content }" placeholder="Task name" />
         <div class="actions">
             <button onclick="confirmDelete()"><img src="./img/trash.png" height="20px" alt=""></button>
         </div>
