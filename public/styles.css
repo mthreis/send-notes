@@ -135,17 +135,33 @@ p {
 }
 
 .cardTime {
-    background-color: #424242;
+    background-color: #595a58;
     width: 10em;
-
     text-align: center;
-
     padding: 5px 0;
-
     font-weight: 600;
-
     border-radius: 16px;
 }
+
+.cardTimeReview {
+    background-color: #a3873b;
+    width: 10em;
+    text-align: center;
+    padding: 5px 0;
+    font-weight: 600;
+    border-radius: 16px;
+}
+
+.cardTimeDone {
+    background-color: #306741;
+    width: 10em;
+    text-align: center;
+    padding: 5px 0;
+    font-weight: 600;
+    border-radius: 16px;
+}
+
+
 
 .card button {
     height: 100%;
@@ -168,4 +184,54 @@ p {
 
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+}
+
+.actionsSep {
+    margin: 0 2px;
+
+    width: 4px;
+    height: 4px;
+    background-color:#595a58;
+    content: none;
+    color: transparent;
+
+    border-radius: 50%;
+}
+
+#popup {
+    display: none;
+}
+.hidden {
+    display: none;
+}
+
+#popupShown {
+    position: fixed;
+
+    background-color: #000000;
+    color: white;
+
+    padding: 12px;
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.popupTitle {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.popupTitle > h4 {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.popupTitle > p {
+    font-size: 16px;
+    font-weight: 400;
 }

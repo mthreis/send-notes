@@ -19,7 +19,7 @@
         </header>
     
         <main>
-            <h4>my notes</h4>
+            <h4 onmouseenter="console.log('aa')">my notes</h4>
             <div id="notes">
                 <p>Loading...</p>
 
@@ -28,6 +28,7 @@
                     <input type="text" name="name" value="Learn webdev in 6 months" placeholder="Task name" />
                     <div class="actions">
                         <button onclick="confirmDelete()"><img src="./img/trash.png" height="20px" alt=""></button>
+                        <button onclick="advance({ object: 'aa' })"><img src="./img/trash.png" height="20px" alt=""></button>
                     </div>
                 </div>
             </div>
@@ -38,6 +39,11 @@
         <p><b>Matheus Reis - 2023</b></p>
     </footer>
 
+    <div id="popup" >
+        <div id="popupAdded" class="popupTitle"><h4 style="color: #595a58;">Added</h4> <p>01/01/0001 -- 01:01</p></div>
+        <div id="popupReview" class="popupTitle"><h4 style="color: #a3873b;">In Review</h4> <p>01/01/0001 -- 01:01</p></div>
+        <div id="popupDone" class="popupTitle"><h4 style="color: #306741;">Done</h4> <p>01/01/0001 -- 01:01</p></div>
+    </div>
     
     <script src="./main.js"></script>
 </body>
