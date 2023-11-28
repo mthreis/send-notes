@@ -11,7 +11,7 @@
     <div id="top">
         <header>
             
-            <h3>send.notes</h3>
+            <h3>send.tasks</h3>
             <div>
                 <p>Night</p>
                 <input type="checkbox" id="night"/>
@@ -19,7 +19,15 @@
         </header>
     
         <main>
-            <h4 onmouseenter="console.log('aa')">my notes</h4>
+            <div class="tabs">
+                <button class="selectedTab">
+                    Tasks
+                </button>
+                <button>
+                    Time
+                </button>
+            </div>
+            <h4>To-do</h4>
             <div id="notes">
                 <p>Loading...</p>
 
@@ -32,6 +40,10 @@
                     </div>
                 </div>
             </div>
+            
+            <h4>in Review</h4>
+            
+            <h4>Completed</h4>
         </main>
     </div>
 

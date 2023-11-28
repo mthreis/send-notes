@@ -12,7 +12,7 @@ async function getData() {
     const response = await fetch("/api");
     const result = await response.json();
 
-    console.log(result);
+    //console.log(result);
 
     notes.innerHTML = "";
 
@@ -21,9 +21,25 @@ async function getData() {
     }
 }
 
-function confirmDelete() {
+function confirmDelete(encodedTask) {
+    const task = JSON.parse(decodeURIComponent(encodedTask));
+
     if (confirm("Are you sure you want to delete it?")) {
-       console.log("delete");
+        console.log("delete");
+
+        console.log("before:", tasks);
+       
+        var id = tasks.findIndex(t => t.id === task.id);
+
+        console.log("id ",id );
+
+        tasks.splice(id, 1);
+
+        console.log("after:", tasks);
+
+        document.getElementById("cardId" + task.id).remove();
+        
+        storeTasksInLS();
     }
 }
 
@@ -41,7 +57,13 @@ function confirmRevert(encodedTask) {
         
         document.getElementById(task.cardId).innerHTML = renderTask(task, true);
         saveTask(task);
+
+        storeTasksInLS();
     }
+}
+
+function storeTasksInLS() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
 function advance(encodedTask) {
@@ -56,6 +78,7 @@ function advance(encodedTask) {
     document.getElementById(task.cardId).innerHTML = renderTask(task, true);
 
     saveTask(task);
+    storeTasksInLS();
 }
 
 function saveTask(task) {
@@ -97,8 +120,8 @@ function renderCards() {
 function formatDate(date) {
 
     const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
     
     const hour = date.getHours();
     const min = String(date.getMinutes()).padStart(2, '0');
@@ -141,7 +164,7 @@ function renderTask(task, innerOnly = false) {
         ${ task.date.length > 1 ? `<button onclick="confirmRevert('${ encodedTask }')"><img src="./img/revert.png" height="20px" alt=""></button>` : `` }
         ${ task.date.length >= taskState.length ? `` : `<button onclick="advance('${ encodedTask }')"><img src="./img/check.png" height="20px" alt=""></button>` }
         <div class="actionsSep"> a</div>
-        <button onclick="confirmDelete()"><img src="./img/trash.png" height="20px" alt=""></button>
+        <button onclick="confirmDelete('${ encodedTask }')"><img src="./img/trash.png" height="20px" alt=""></button>
     </div>
     `;
 
@@ -168,6 +191,16 @@ function popup(enable, encodedTask) {
         const task = JSON.parse(decodeURIComponent(encodedTask));
         popupReview.setAttribute("class", task.date.length > 1 ? "popupTitle" : "hidden");
         popupDone.setAttribute("class", task.date.length > 2 ? "popupTitle" : "hidden");
+
+        for(const p of popupAdded.getElementsByTagName("p")) p.innerHTML = formatDate(new Date(task.date[0]));
+
+        if (task.date.length >= 2) {
+            for(const p of popupReview.getElementsByTagName("p")) p.innerHTML = formatDate(new Date(task.date[1]));
+        }
+
+        if (task.date.length >= 3) {
+            for(const p of popupDone.getElementsByTagName("p")) p.innerHTML = formatDate(new Date(task.date[2]));
+        }
     }
 }
 
@@ -196,26 +229,44 @@ checkbox.addEventListener('change', (ev) => localStorage.setItem("night", ev.tar
 
 checkbox.checked = JSON.parse(localStorage.getItem("night")) === true;
 
-tasks = [
-    {
-        id: 0,
-        date: [ new Date(2000, 3, 14, 5, 11, 1, 11) ],
-        content: 'New task 1'
-    },
-    {
-        id: 1879,
-        date: [ new Date(2005, 3, 14, 5, 11, 1, 11) ],
-        content: 'New task 2'
-    },
-    {
-        id: 12,
-        date: [ new Date(2010, 3, 14, 5, 11, 1, 11) ],
-        content: 'New task 3'
-    }
-];
+const lsTasks = localStorage.getItem("tasks");
+
+if (lsTasks) {
+    tasks = JSON.parse(lsTasks);
+} else {
+    tasks = [
+        {
+            id: 0,
+            date: [ new Date(2000, 3, 14, 5, 11, 1, 11) ],
+            content: 'New task 1'
+        },
+        {
+            id: 1879,
+            date: [ new Date(2005, 3, 14, 5, 11, 1, 11) ],
+            content: 'New task 2'
+        },
+        {
+            id: 12,
+            date: [ new Date(2010, 3, 14, 5, 11, 1, 11) ],
+            content: 'New task 3'
+        },
+        {
+            id: 122,
+            date: [ new Date(2010, 3, 14, 5, 11, 1, 11) ],
+            content: 'New task 3'
+        },
+        {
+            id: 1112,
+            date: [ new Date(2010, 3, 14, 5, 11, 1, 11) ],
+            content: 'New task 3'
+        }
+    ];
+    
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
 
-localStorage.setItem("tasks", JSON.stringify(tasks));
+tasks = tasks.sort(function(a, b) { return new Date(b.date[b.date.length - 1]) - new Date(a.date[a.date.length - 1]) })
 
 //console.log(tasks);
 
